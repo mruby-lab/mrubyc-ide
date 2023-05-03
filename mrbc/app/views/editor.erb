@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    input, textarea {
+      font-family: 'Lucida Console';
+    }
+  </style>
+</head>
+<body>
+  <h1>mruby コンパイラ</h1>
+  <form action="/compile" method="POST">
+    <div>
+      ファイル名:<br><input type="text" name="name" value="">
+    </div>
+    <br>
+    <div>
+      mrubyプログラム:<br>
+      <textarea name="program" rows="25" cols="55"></textarea>
+    </div>
+    <br>
+    <div>
+      <input type="submit" value="コンパイル&ダウンロード">
+    </div>
+  </form>
+</body>
+</html>
