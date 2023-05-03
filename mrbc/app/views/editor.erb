@@ -21,6 +21,17 @@
     </div>
     <br>
     <div>
+      <select name="version">
+	<% for v in @versions do %>
+	<% if v=="3.2.0" then %>
+	<option value="<%= v %>" selected>mrbc <%= v %></option>
+	<% else %>
+	<option value="<%= v %>">mrbc <%= v %></option>
+	<% end %>
+	<% end %>
+      </select>
+    </div>
+    <div>
       <input type="submit" value="コンパイル&ダウンロード">
     </div>
   </form>
