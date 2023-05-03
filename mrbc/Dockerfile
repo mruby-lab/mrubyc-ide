@@ -13,7 +13,7 @@ RUN cd mruby && make clean && git checkout 3.2.0 && make && cp /root/mruby/bin/m
 
 COPY app .
 
-# RUN bundle install
+RUN bundle install
 
 EXPOSE 4567
 

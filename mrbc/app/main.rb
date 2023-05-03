@@ -24,35 +24,40 @@ end
  
 # TODO: コンパイル部分を実装する
 post '/compile' do
-    @name = params[:name]
-    @program = params[:program]
-    @version = params[:version]
+    name = params[:name]
+    program = params[:program]
+    version = params[:version]
   
     mrbc_path = ""
-    if @version=="3.2.0" then
+    if version=="3.2.0" then
       mrbc_path = "/bin/mrbc3.2.0"
-    elsif @version=="2.0.1" then
+    elsif version=="2.0.1" then
       mrbc_path = "/bin/mrbc2.0.1"
     else
       mrbc_path = "/bin/mrbc3.2.0"    # デフォルトのコンパイラ
     end
-  
-    Tempfile.create([@name, '.rb']) do |f|
+
+    # プログラム名が指定されなかった場合
+    if name=="" then
+        name = "default"
+    end
+
+    Tempfile.create([name, '.rb']) do |f|
       #プログラムをtmpファイルに保存
       path = f.path
       fname = File.basename(path, '.*')
-      f.puts @program
+      f.puts program
       f.rewind
   
       #tmpファイルのコンパイル
       cpcmd = "#{mrbc_path} #{path}"
       puts cpcmd
-      @cpr, @cpe, @cps = Open3.capture3(cpcmd)
+      cpr, cpe, cps = Open3.capture3(cpcmd)
       #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
   
-      if @cpe.empty? then
+      if cpe.empty? then
         mrbpath = "/tmp/#{fname}.mrb"
-        send_file(mrbpath, filename: "#{@name}.mrb") 
+        send_file(mrbpath, filename: "#{name}.mrb") 
   
       else
         puts "Error"
