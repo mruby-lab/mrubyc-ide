@@ -9,13 +9,17 @@
   </style>
 </head>
 <body>
-  <h1>mrubyc開発環境</h1>
-  <form action="/compile" method="POST">
+  <h1>mrubyc開発環境 for <%= @writer_name %></h1>
+  <form action="<%= @writer_action %>" method="POST">
     <div>
       ファイル名:<br><input type="text" name="name" value="program">
     </div>
     <div>
+      <% if @writer == :download then %>
       <input type="submit" value="コンパイル&ダウンロード">
+      <% elsif @writer == :ble then %>
+      <input type="submit" value="転送(<%= @writer_name %>)">
+      <% end %>
     </div>
     <div>
       mrubyプログラム:<br>
