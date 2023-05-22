@@ -14,6 +14,19 @@
     <div>
       ファイル名:<br><input type="text" name="name" value="program">
     </div>
+
+    <div>
+      <select name="version">
+        <% for v in @versions do %>
+        <% if v==@default_mrbc then %>
+        <option value="<%= v %>" selected>mrbc <%= v %></option>
+        <% else %>
+        <option value="<%= v %>">mrbc <%= v %></option>
+        <% end %>
+        <% end %>
+      </select>
+    </div>
+    
     <div>
       <% if @writer == :download then %>
       <input type="submit" value="コンパイル&ダウンロード">

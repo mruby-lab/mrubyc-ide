@@ -5,6 +5,7 @@ require 'tempfile'
 require 'open3'
 
 set :bind, '0.0.0.0'
+set :port, 4566
 
 get '/' do
   "It works."
@@ -28,6 +29,8 @@ get "/editor" do
 end
  
 post '/compile' do
+  p params
+  
   name = params[:name]
   program = params[:program]
   version = params[:version]
