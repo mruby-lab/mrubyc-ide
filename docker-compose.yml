@@ -6,8 +6,8 @@ services:
     ports:
       - 4567:4567
 
-#  ide:
-#    build: ./ide
-#    ports:
-#      - 80:4567
+  ide:
+    build: ./ide
+    ports:
+      - 80:4567
 

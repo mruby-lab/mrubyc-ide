@@ -1,0 +1,27 @@
+<html>
+<title>mrubyc-ide</title>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    input, textarea {
+      font-family: 'Lucida Console';
+    }
+  </style>
+</head>
+<body>
+  <h1>mrubyc開発環境</h1>
+  <form action="/compile" method="POST">
+    <div>
+      ファイル名:<br><input type="text" name="name" value="program">
+    </div>
+    <div>
+      <input type="submit" value="コンパイル&ダウンロード">
+    </div>
+    <div>
+      mrubyプログラム:<br>
+      <textarea name="program" rows="25" cols="55"></textarea>
+    </div>
+    <br>
+  </form>
+</body>
+</html>
