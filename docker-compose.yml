@@ -4,7 +4,7 @@ services:
   mrbc:
     build: ./mrbc
     ports:
-      - 4567:4567
+      - 4566:4566
 
   ide:
     build: ./ide
