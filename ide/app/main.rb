@@ -64,7 +64,9 @@ post "/compile" do
   res = Net::HTTP.post_form(uri, 'version' => @params['version'],
                             'program' => @params['program'],
                             'name' => @params['name'])
-  puts res
+  content_type 'application/octet-stream'
+  headers "Content-Disposition" => "attachment;filename=\"#{@params['name']}.mrb\""
+  res.body
 end
 
 
