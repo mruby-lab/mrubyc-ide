@@ -1,10 +1,11 @@
 require 'sinatra'
 require 'webrick'
 require 'json'
-require 'rest-client'
+require 'uri'
+require 'net/http'
 
-# $api = 'http://localhost:4566'
-$api = 'http://http://mrubyc-ide.ddns.net:4566'
+#$api = 'http://localhost:4566'
+$api = 'http://mrubyc-ide.ddns.net:4566'
 
 set :bind, '0.0.0.0'
 set :port, 4567
@@ -16,7 +17,8 @@ end
 
 # mrbcのバージョン情報
 def get_version
-  res = RestClient.get("#{$api}/versions")
+  uri = URI("#{$api}/versions")
+  res = Net::HTTP.get_response(uri)
   return JSON.parse(res.body)
 end
 
@@ -24,7 +26,6 @@ end
 # エディタ
 get "/editor" do
   @versions = get_version
-  p @versions
   @writer = :download
   @writer_name = :download
   @writer_action = "/compile"
@@ -59,10 +60,10 @@ end
 # コンパイル＆ダウンロードの処理
 # mrbcコンテナのサービスを使う
 post "/compile" do
-  body = { version: @params['version'],
-           program: @params['program'],
-           name: @params['name'] }
-  res = RestClient.post("#{$api}/compile", body)
+  uri = URI("#{$api}/compile")
+  res = Net::HTTP.post_form(uri, 'version' => @params['version'],
+                            'program' => @params['program'],
+                            'name' => @params['name'])
   puts res
 end
 
