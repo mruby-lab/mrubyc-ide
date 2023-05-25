@@ -2,20 +2,21 @@
 <title>mrubyc-ide</title>
 <head>
   <meta charset="UTF-8">
-  <style>
-    input, textarea {
-      font-family: 'Lucida Console';
-    }
-  </style>
+  <script src="/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="/lib/codemirror.css">
+  <link rel="stylesheet" href="/theme/base16-dark.css">
+  <script src="/mode/ruby/ruby.js"></script>
 </head>
+
 <body>
   <h1>mrubyc開発環境 for <%= @writer_name %></h1>
   <form action="<%= @writer_action %>" method="POST">
     <div>
       ファイル名:<br><input type="text" name="name" value="program">
     </div>
-
+    <br>
     <div>
+      コンパイラバージョン:
       <select name="version">
         <% for v in @versions do %>
         <% if v==@default_mrbc then %>
@@ -26,7 +27,7 @@
         <% end %>
       </select>
     </div>
-    
+    <br>
     <div>
       <% if @writer == :download then %>
       <input type="submit" value="コンパイル&ダウンロード">
@@ -34,10 +35,20 @@
       <input type="submit" value="転送(<%= @writer_name %>)">
       <% end %>
     </div>
+    <br>
     <div>
       mrubyプログラム:<br>
-      <textarea name="program" rows="25" cols="55"></textarea>
+      <textarea id="program" name="program"></textarea>
     </div>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("program"), {
+        mode: "ruby",
+        lineNumbers: true,
+        theme: 'base16-dark'
+      });
+      editor.setSize("60%", "60%");
+      editor.save();
+    </script>
     <br>
   </form>
 </body>
