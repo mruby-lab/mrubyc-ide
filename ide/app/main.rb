@@ -4,7 +4,8 @@ require 'json'
 require 'uri'
 require 'net/http'
 
-#$api = 'http://localhost:4566'
+#$api = 'http://host.docker.internal:4566'
+#上記URLは開発環境用
 $api = 'http://mrubyc-ide.ddns.net:4566'
 
 set :bind, '0.0.0.0'

@@ -2,33 +2,28 @@
 <title>mrubyコンパイラ</title>
 <head>
   <meta charset="UTF-8">
-  <style>
-    input, textarea {
-      font-family: 'Lucida Console';
-    }
-  </style>
 </head>
 <body>
   <h1>mruby コンパイラ</h1>
   <form action="/compile" method="POST">
     <div>
-      ファイル名:<br><input type="text" name="name" value="">
+      ファイル名:<br><input id="name" type="text" name="name" value="">
     </div>
     <br>
     <div>
       mrubyプログラム:<br>
-      <textarea name="program" rows="25" cols="55"></textarea>
+      <textarea id="program" name="program"></textarea>
     </div>
     <br>
     <div>
       <select name="version">
-	<% for v in @versions do %>
-	<% if v=="3.2.0" then %>
-	<option value="<%= v %>" selected>mrbc <%= v %></option>
-	<% else %>
-	<option value="<%= v %>">mrbc <%= v %></option>
-	<% end %>
-	<% end %>
+	      <% for v in @versions do %>
+	      <% if v=="3.2.0" then %>
+	        <option value="<%= v %>" selected>mrbc <%= v %></option>
+	      <% else %>
+	        <option value="<%= v %>">mrbc <%= v %></option>
+	      <% end %>
+	      <% end %>
       </select>
     </div>
     <div>
