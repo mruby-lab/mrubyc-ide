@@ -69,6 +69,9 @@
 
 	      //ドロップ禁止にならないようにする
 	      el.addEventListener("dragover", event => event.preventDefault());
+
+        //編集内容をtextareaに同期
+        editor.save();
       }
       //初期化処理
       Window.onload = event => initDnD();
@@ -76,6 +79,7 @@
 
     <script> //Textareaの内容を保存
       function save(){
+        editor.save();
         var code = document.getElementById('program').value;
         var name = document.getElementById('name').value;
         if(!name){
