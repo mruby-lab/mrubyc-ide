@@ -37,7 +37,7 @@ end
 
 get "/editor/:writer" do
   @versions = get_version
-  case params['writer']
+  case params['writer'].downcase
   when 'ble' then
     @writer = :ble
     @writer_name = "BLE"
