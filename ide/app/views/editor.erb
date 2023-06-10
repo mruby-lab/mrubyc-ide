@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/lib/codemirror.css">
   <link rel="stylesheet" href="/theme/base16-dark.css">
   <script src="/mode/ruby/ruby.js"></script>
+  <script type="text/javascript" src="senstick_app_mrubyc.js"></script>
 </head>
 
 <body>
@@ -104,6 +105,7 @@
       <% if @writer == :download then %>
       <input type="submit" value="コンパイル&ダウンロード">
       <% elsif @writer == :ble then %>
+      <input type="button" value="BLE接続" onClick="scan_onclick()">
       <input type="submit" value="転送(<%= @writer_name %>)">
       <% end %>
     </div>
