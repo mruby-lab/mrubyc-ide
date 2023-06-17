@@ -1,0 +1,44 @@
+﻿<script type="text/javascript">
+    RED.nodes.registerType('ADC', {
+        category: 'mruby_Rboad_Nodes',
+        color: '#A9E2F3',
+        defaults: {
+            name: { value: "" },
+            WriteType: { value: "digital_write" },
+            ADCType: { value: "write" },
+            Pin_num: { value: "" },
+            frequency: { value: "" },
+            double: { value: "0" },
+            rate: { value: "" }
+
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "serial.svg",
+        label: function () {
+            return this.name || "ADC";
+        },
+        paletteLabel: function () {
+            return this.name || "ADC";
+        },
+
+        oneditprepare: function () {
+
+        }
+
+    });
+</script>
+
+<script type="text/html" data-template-name="ADC">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名前</label>
+        <input type="text" id="node-input-name" placeholder="名前">
+    </div>
+
+    
+    <div class="form-row">
+        <label for="node-input-Pin_num"><i class="icon-tag"></i> 出力Pin</label>
+        <input type="text" id="node-input-Pin_num" placeholder="Pin番号を入力して下さい。">    
+    </div>
+
+</script>

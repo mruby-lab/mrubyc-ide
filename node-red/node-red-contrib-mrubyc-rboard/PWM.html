@@ -1,0 +1,54 @@
+﻿<script type="text/javascript">
+	RED.nodes.registerType('PWM',{
+		category: 'mruby_Rboad_Nodes',
+		color: '#a6bbcf',
+		defaults: {
+			name: {value:""},
+            Pin_num: { value: "" },
+            frequency: { value: "" },
+            duty_rate: {value:""}
+		},
+		inputs:1,
+		outputs:1,
+		icon: "arrow-in.png",
+		label: function() {
+			return this.name||"PWM";
+		},
+
+        oneditprepare: function(){
+
+            
+
+        }
+	});
+
+
+</script>
+
+<script type="text/html" data-template-name="PWM">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名前</label>
+        <input type="text" id="node-input-name" placeholder="名前">
+    </div>
+
+
+    <div class="form-row">
+        <label for="node-input-Pin_num"><i class="icon-tag"></i> 出力Pin</label>
+        <input type="text" id="node-input-Pin_num" placeholder="Pin番号を入力して下さい。">
+    </div>
+
+
+    <div class="form-row">
+        <label for="node-input-frequency"><i class="icon-tag"></i> 周波数</label>
+        <input type="text" id="node-input-frequency" placeholder="周波数設定[Hz]を設定してください。">
+    </div>
+
+
+    <div class="form-row">
+        <label for="node-input-rate"><i class="icon-tag"></i> デューティー比</label>
+        <input type="text" id="node-input-duty_rate" placeholder="パーセント[%]">
+    </div>
+
+
+
+</script>

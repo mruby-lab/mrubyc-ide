@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    RED.nodes.registerType('FormatNodeType', {
+        category: 'mruby_Rboad_Nodes',
+        color: '#A9E2F3',
+        defaults: {
+            name: { value: "" },
+            C: {value: "1"}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "arrow-in.svg",
+        label: function () {
+            return this.name||"FormatNodeType";
+        }
+    });
+</script>
+ 
+<script type="text/html" data-template-name="FormatNodeType">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名前</label>
+        <input type="text" id="node-input-name" placeholder="名前">
+    </div>
+</script>
+ 
+<script type="text/x-red" data-help-name="FormatNodeType">
+    <p>サンプルです.</p>
+</script>

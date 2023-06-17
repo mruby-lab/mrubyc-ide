@@ -1,0 +1,61 @@
+
+<script type="text/javascript">
+	RED.nodes.registerType('Button',{
+		category: 'mruby_Rboad_Nodes',
+		color: '#a6bbcf',
+		defaults: {
+			name: {value:""},
+			onBoardButton:{value:"0"},
+			targetPort: {value: ""},
+			selectPull: {value: "0"}
+		},
+		inputs:1,
+		outputs:1,
+		icon: "arrow-in.png",
+		label: function() {
+			return this.name||"Button";
+		},
+        
+        oneditprepare: function(){
+
+            $("#node-input-onBoardButton").on("change",function() {
+                if (this.value === "0") {
+                    $("#Button_usingTact").show();
+                } else if (this.value === "1") {
+                    $("#Button_usingTact").hide();
+                }
+            }).trigger("change");
+			
+        }
+	});
+
+
+</script>
+
+<script type="text/html" data-template-name="Button">
+	<div class="form-row">
+		<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+
+	<div class="form-row">
+        	<label for="node-input-targetPort"><i class="icon-tag"></i> 対象Pin番号</label>
+        	<input type="text" id="node-input-targetPort"  placeholder="ボタンと接続しているPin番号を入力">
+	</div>
+
+	<div class="form-row">
+			<label for="node-input-selectPull"><i class="icon-tag"></i> 内部抵抗選択 </label>
+        	<select id="node-input-selectPull">
+            	<option value="0">Pull なし</option>
+            	<option value="1">Pull up</option>
+				<option value="-1">Pull down</option>
+        	</select>
+	</div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="Button">
+	<p>マイコンボードのオンボードボタンとGPIOピンと接続されるボタンの設定を行います.</p>
+</script>
