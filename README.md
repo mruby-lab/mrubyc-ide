@@ -18,7 +18,7 @@
 ## 使い方
 
 - mrubyソースコードを入力して、バイトコードを出力したい<br>
-    `http://localhost:4567/editor` 
+    `http://localhost/editor`
 
 
 ## 資料
