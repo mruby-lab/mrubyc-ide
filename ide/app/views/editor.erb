@@ -2,10 +2,12 @@
 <title>mrubyc-ide</title>
 <head>
   <meta charset="UTF-8">
+  <!-- エディタ関連 -->
   <script src="/lib/codemirror.js"></script>
   <link rel="stylesheet" href="/lib/codemirror.css">
   <link rel="stylesheet" href="/theme/base16-dark.css">
   <script src="/mode/ruby/ruby.js"></script>
+  <!-- BLE関連 -->
   <script type="text/javascript" src="/ble/bluejelly.js"></script>
   <script type="text/javascript" src="/ble/senstick_app_mrubyc.js"></script>
 </head>
@@ -48,6 +50,13 @@
       });
       editor.setSize("60%", "60%");
       editor.save();
+    </script>
+
+    <script> //BLEの設定
+      <% if @writer == :ble then %>
+      ble.setUUID("battery", BATTERY_SERVICE_UUID, BATTERY_CHAR_UUID)
+      ble.setUUID("mrubyc", MRUBY_SERVICE_UUID, MRUBY_CHAR_UUID)
+      <% end %>
     </script>
 
     <script> //Rubyファイルのドラック&ドロップ機能
@@ -104,8 +113,10 @@
 
     <div>
       <% if @writer == :download then %>
+      <%# コンパイル後、ダウンロードする場合のボタン %>
       <input type="submit" value="コンパイル&ダウンロード">
       <% elsif @writer == :ble then %>
+      <%# コンパイル後、BLE転送する場合のボタン %>
       <input type="button" value="BLE接続" onClick="scan_onclick()">
       <input type="submit" value="転送(<%= @writer_name %>)">
       <% end %>
