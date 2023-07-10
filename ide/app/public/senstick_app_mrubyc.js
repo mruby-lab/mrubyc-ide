@@ -231,3 +231,9 @@ const transfer_onclick = () => {
 	
 	}
 }
+
+// テスト用 [compile] ボタン
+const compile_onclick = () => {
+	// mrubyコードを取得してコンパイルする
+	var code = document.getElementById('program').value
+}

@@ -118,8 +118,9 @@
       <% elsif @writer == :ble then %>
       <%# コンパイル後、BLE転送する場合のボタン %>
       <input type="button" value="BLE接続" onClick="scan_onclick()">
-      <input type="submit" value="転送(<%= @writer_name %>)">
+      <input type="submit" value="転送(<%= @writer_name %>)" onClick="transfer_onclick()">
       <% end %>
+      <input type="submit" value="compile test" onClick="compile_onclick()">
     </div>
   </form>
 
