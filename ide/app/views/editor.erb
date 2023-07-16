@@ -128,9 +128,11 @@
       <%# コンパイル後、BLE転送する場合のボタン %>
       <div id="device_name"></div>
       <div id="device_status">未接続</div>
-      
+      <div id="transfer_progress"></div><div id="transfer_result_text"></div>
       <input type="button" value="BLE接続" onClick="scan_onclick()">
       <input type="button" value="転送(<%= @writer_name %>)" onClick="transfer_onclick()">
+      パスワード: <input id="password" type="password" size="10" maxlength="15" value="senstickpass">
+      （初期パスワードは senstickpass です）
       <% end %>
     </div>
   </form>

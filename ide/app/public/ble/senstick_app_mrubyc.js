@@ -63,7 +63,7 @@ ble.onDisconnect = (deviceName) => {
 
 // 転送中のプログレス表示
 const transferProgress = (val) => {
-    document.getElementById('transfer_progress').innerHTML = val + ' %'
+    document.getElementById('transfer_progress').innerHTML = '転送中' + val + ' %'
 }
 
 // ドラッグ中
@@ -168,17 +168,28 @@ ble.onRead = (data,deviceName) => {
 // [Transfer] ボタン
 const transfer_onclick = () => {
 	// mrubyコードを取得してコンパイルする
-	console.log("ble click: compile, download, start transfer")
-	const sourcecode = document.getElementById('program').value
-	console.log(sourcecode)
 	// compile
+	const fd = new FormData()
+	fd.append("program", document.getElementById('program').value)
+	fd.append("version", "2.0.1")
+	fd.append("name", "mruby_prgram")
 	const compile_url = "http://mrubyc-ide.ddns.net:4566/compile"
-	fetch(compile_url, {method:'POST', body:sourcecode})
-		.then(response => response.json())
-		.then(result => {
-            console.log(result);
-        })
-/*		
+	fetch(compile_url, {method:'POST', body:fd, mode:"cors" })
+		.then(res => res.body.getReader().read() )
+		.then(res => {
+	    	transfer_data.bytecode = res.value
+	    	transfer_data.seq = 0
+	    	transfer_data.end_seq = (res.value.length+15) / 16 | 0
+			console.log(transfer_data) 
+	    	// onWriteイベント発生
+	    	ble.write("mrubyc", [0x00])
+		})
+		.catch(err => {
+			console.error(err)
+		})
+	}
+
+	/*		
 	var reader = new FileReader()
     if( mrb_files.length == 1 ){
 		// 単一バイトコード
@@ -237,8 +248,5 @@ const transfer_onclick = () => {
 		}
 		// 最初のファイルを読み込み開始する
 		reader.readAsArrayBuffer(mrb_files[seq])
-	
-	}
-	*/
-}
+		*/
 
