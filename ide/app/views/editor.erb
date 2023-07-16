@@ -2,17 +2,26 @@
 <title>mrubyc-ide</title>
 <head>
   <meta charset="UTF-8">
+
   <!-- エディタ関連 -->
   <script src="/lib/codemirror.js"></script>
   <link rel="stylesheet" href="/lib/codemirror.css">
   <link rel="stylesheet" href="/theme/base16-dark.css">
   <script src="/mode/ruby/ruby.js"></script>
-  <!-- BLE関連 -->
+
+  <!-- BLE機能 -->
+  <% if @writer == :ble then %>
   <script type="text/javascript" src="/ble/bluejelly.js"></script>
+  <% end %>
+
+  <!-- SenStick機能 -->
+  <% if @writer_name == "SenStick" %>
   <script type="text/javascript" src="/ble/senstick_app_mrubyc.js"></script>
+  <% end %>
+
 </head>
 
-<body>
+<body onload=page_load()>
   <h1>mrubyc開発環境 for <%= @writer_name %></h1>
   <form action="<%= @writer_action %>" method="POST">
     <div>

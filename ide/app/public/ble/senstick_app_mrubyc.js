@@ -13,10 +13,6 @@ const page_load = () => {
     //UUIDの設定
     ble.setUUID("battery", BATTERY_SERVICE_UUID, BATTERY_CHAR_UUID) 
     ble.setUUID("mrubyc", MRUBY_SERVICE_UUID, MRUBY_CHAR_UUID)
-    // ドラッグ＆ドロップイベント
-    var dropFrame = document.getElementById('drop_area');
-    dropFrame.addEventListener('dragover', handleDragOver, false);
-    dropFrame.addEventListener('drop', handleFileSelect, false);
 }
 
 // 送信するバイト列を管理する
@@ -31,8 +27,8 @@ var TRANSFER_WAIT_MS = 10
 // BLEスキャン時の onScan イベントハンドラ
 //　選択したデバイス名を表示する
 ble.onScan = (deviceName) => {
-    document.getElementById('device_name').innerHTML = deviceName
-    document.getElementById('device_status').innerHTML = 'Connecting...'
+//    document.getElementById('device_name').innerHTML = deviceName
+//    document.getElementById('device_status').innerHTML = 'Connecting...'
 }
 
 
@@ -230,4 +226,10 @@ const transfer_onclick = () => {
 		reader.readAsArrayBuffer(mrb_files[seq])
 	
 	}
+}
+
+// テスト用 [compile] ボタン
+const compile_onclick = () => {
+	// mrubyコードを取得してコンパイルする
+	var code = document.getElementById('program').value
 }
