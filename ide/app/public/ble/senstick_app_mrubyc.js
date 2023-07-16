@@ -27,8 +27,8 @@ var TRANSFER_WAIT_MS = 10
 // BLEスキャン時の onScan イベントハンドラ
 //　選択したデバイス名を表示する
 ble.onScan = (deviceName) => {
-//    document.getElementById('device_name').innerHTML = deviceName
-//    document.getElementById('device_status').innerHTML = 'Connecting...'
+    document.getElementById('device_name').innerHTML = deviceName
+    document.getElementById('device_status').innerHTML = '接続中...'
 }
 
 
@@ -45,7 +45,8 @@ const scan_onclick = () => {
 
 // GATT接続した
 ble.onConnectGATT = (deviceName) => {
-    document.getElementById('device_status').innerHTML = 'Connected'}
+    document.getElementById('device_status').innerHTML = '接続済'
+}
 
 
 // [disconnect] ボタン
@@ -166,7 +167,19 @@ ble.onRead = (data,deviceName) => {
 
 // [Transfer] ボタン
 const transfer_onclick = () => {
-    var reader = new FileReader()
+	// mrubyコードを取得してコンパイルする
+	console.log("ble click: compile, download, start transfer")
+	const sourcecode = document.getElementById('program').value
+	console.log(sourcecode)
+	// compile
+	const compile_url = "http://mrubyc-ide.ddns.net:4566/compile"
+	fetch(compile_url, {method:'POST', body:sourcecode})
+		.then(response => response.json())
+		.then(result => {
+            console.log(result);
+        })
+/*		
+	var reader = new FileReader()
     if( mrb_files.length == 1 ){
 		// 単一バイトコード
 		// 転送バイト列は mrbファイルそのまま
@@ -226,10 +239,6 @@ const transfer_onclick = () => {
 		reader.readAsArrayBuffer(mrb_files[seq])
 	
 	}
+	*/
 }
 
-// テスト用 [compile] ボタン
-const compile_onclick = () => {
-	// mrubyコードを取得してコンパイルする
-	var code = document.getElementById('program').value
-}

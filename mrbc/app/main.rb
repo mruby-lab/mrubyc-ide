@@ -7,6 +7,11 @@ require 'open3'
 set :bind, '0.0.0.0'
 set :port, 4566
 
+
+before do
+  response.headers['Access-Control-Allow-Origin'] = '*'
+end
+
 get '/' do
   "It works."
 end

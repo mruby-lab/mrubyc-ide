@@ -70,15 +70,3 @@ post "/compile" do
   res.body
 end
 
-
-# BLE転送の処理
-post "/send_ble" do
-  # コンパイル
-  uri = URI("#{$api}/compile")
-  res = Net::HTTP.post_form(uri, 'version' => @params['version'],
-                            'program' => @params['program'],
-                            'name' => @params['name'])
-  # バイトコードが res.body に入っている
-  
-end
-
