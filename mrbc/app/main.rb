@@ -3,7 +3,14 @@ require 'webrick'
 require 'json'
 require 'tempfile'
 require 'open3'
+require 'net/http'
+require 'webrick/https'
 
+set :server_settings,
+    SSLEnable: true,
+    SSLCertName: [['CN', WEBrick::Utils.getservername]]
+
+    
 set :bind, '0.0.0.0'
 set :port, 4566
 
