@@ -1,0 +1,108 @@
+<html>
+<title>mrubyc-ide for SenStick</title>
+<head>
+  <meta charset="UTF-8">
+
+  <!-- エディタ関連 -->
+  <script src="/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="/lib/codemirror.css">
+  <link rel="stylesheet" href="/theme/base16-dark.css">
+  <script src="/mode/ruby/ruby.js"></script>
+
+  <!-- BLE機能 -->
+  <script type="text/javascript" src="/ble/bluejelly.js"></script>
+  <script type="text/javascript" src="/ble/senstick_app_mrubyc.js"></script>
+
+</head>
+
+<body onload=page_load()>
+  <h1>mrubyc開発環境 for SenStick </h1>
+
+  <div>
+    mrubyプログラム:<br>
+    <textarea id="program" name="program"></textarea>
+    <!--
+    ※textareaの初期入力がない場合、一度コンパイルをかけないとtextareaの内容をRubyファイルとして保存できない※
+    -->
+  </div>
+
+  <script> //シンタックスハイライト機能
+    var editor = CodeMirror.fromTextArea(document.getElementById("program"), {
+      mode: "ruby",
+      lineNumbers: true,
+      theme: 'base16-dark'
+    });
+    editor.setSize("60%", "60%");
+    editor.save();
+  </script>
+
+  <script> //Rubyファイルのドラック&ドロップ機能
+    function initDnD(){
+      const el = document.querySelector("#program");
+
+      //ファイルがドロップされたときの処理
+      el.addEventListener("drop", event => {
+		    //デフォルトの動作を禁止
+		    event.preventDefault();
+        console.log("drop");
+		    const file = event.dataTransfer.files[0];
+		    const r = new FileReader();
+		    r.onload = function(ev){
+			    //ファイルを読み終わったときの処理
+			    document.querySelector("#program").value = ev.target.result;
+		    };
+		  //ファイルを読み込む
+		    r.readAsText(file);
+	    });
+
+	    //ドロップ禁止にならないようにする
+	    el.addEventListener("dragover", event => event.preventDefault());
+
+      //編集内容をtextareaに同期
+      editor.save();
+    }
+
+    //初期化処理
+    Window.onload = event => initDnD();
+  </script>
+
+  <script> //Textareaの内容を保存
+    function save(){
+      editor.save();
+      var code = document.getElementById('program').value;
+      var name = document.getElementById('name').value;
+      if(!name){
+        name = 'program';
+      }
+
+      if(!code){
+        return;
+      }
+
+      var blob = new Blob([code], {type: 'text/plain'});
+
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name + '.rb';
+      a.click();
+    };
+  </script>
+  <br>
+
+  <div>
+    <%# コンパイル後、BLE転送する場合のボタン %>
+    <div id="device_name"></div>
+    <div id="device_status">未接続</div>
+    <div id="transfer_progress"></div><div id="transfer_result_text"></div>
+    <input type="button" value="BLE接続" onClick="scan_onclick()">
+    <input type="button" value="SenStickへ転送" onClick="transfer_onclick()">
+    パスワード: <input id="password" type="password" size="10" maxlength="15" value="senstickpass">
+    （初期パスワードは senstickpass です）
+  </div>
+
+  <div>
+    <button onclick="save();">ファイルを保存</button>
+  </div>
+
+</body>
+</html>

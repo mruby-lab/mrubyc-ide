@@ -43,18 +43,20 @@ get "/editor/:writer" do
     @writer_name = "BLE"
     @writer_action = "/send_ble"
     @default_mrbc = @versions[-1]
+    erb :editor
   when 'senstick' then
-    @writer = :ble
-    @writer_name = "SenStick"
-    @writer_action = "/send_ble"
-    @default_mrbc = "2.0.1"
-  else
+#    @writer = :ble
+#    @writer_name = "SenStick"
+#    @writer_action = "/send_ble"
+#    @default_mrbc = "2.0.1"
+    erb :senstick_editor
+else
     @writer = :download
     @writer_name = :download
     @writer_action = "/compile"
     @default_mrbc = @versions[-1]
+    erb :editor
   end
-  erb :editor
 end
  
 
