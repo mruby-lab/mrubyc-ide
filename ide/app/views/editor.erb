@@ -61,13 +61,6 @@
       editor.save();
     </script>
 
-    <script> //BLEの設定
-      <% if @writer == :ble then %>
-      ble.setUUID("battery", BATTERY_SERVICE_UUID, BATTERY_CHAR_UUID)
-      ble.setUUID("mrubyc", MRUBY_SERVICE_UUID, MRUBY_CHAR_UUID)
-      <% end %>
-    </script>
-
     <script> //Rubyファイルのドラック&ドロップ機能
       function initDnD(){
 	      const el = document.querySelector("#program");
