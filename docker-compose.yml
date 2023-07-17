@@ -9,7 +9,7 @@ services:
   ide:
     build: ./ide
     ports:
-      - 80:4567
+      - 443:4567
 
   node-red:
     build: ./node-red

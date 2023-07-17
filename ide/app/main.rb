@@ -3,7 +3,13 @@ require 'webrick'
 require 'json'
 require 'uri'
 require 'net/http'
+require 'webrick/https'
 
+set :server_settings,
+    SSLEnable: true,
+    SSLCertName: [['CN', WEBrick::Utils.getservername]]
+
+    
 #$api = 'http://host.docker.internal:4566'
 #上記URLは開発環境用
 $api = 'http://mrubyc-ide.ddns.net:4566'
