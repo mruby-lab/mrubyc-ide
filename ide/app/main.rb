@@ -25,7 +25,9 @@ end
 # mrbcのバージョン情報
 def get_version
   uri = URI("#{$api}/versions")
-  res = Net::HTTP.get_response(uri)
+  http = Net::HTTP.new(uri)
+  http.use_ssl = true
+  res = http.get_response(uri)
   return JSON.parse(res.body)
 end
 
@@ -42,9 +44,9 @@ end
   
 
 get "/editor/:writer" do
-  @versions = get_version
   case params['writer'].downcase
   when 'ble' then
+    @versions = get_version
     @writer = :ble
     @writer_name = "BLE"
     @writer_action = "/send_ble"
@@ -56,7 +58,8 @@ get "/editor/:writer" do
 #    @writer_action = "/send_ble"
 #    @default_mrbc = "2.0.1"
     erb :senstick_editor
-else
+  else
+    @versions = get_version
     @writer = :download
     @writer_name = :download
     @writer_action = "/compile"
@@ -70,8 +73,10 @@ end
 # mrbcコンテナのサービスを使う
 post "/compile" do
   uri = URI("#{$api}/compile")
-  res = Net::HTTP.post_form(uri, 'version' => @params['version'],
-                            'program' => @params['program'],
+  http = Net::HTTP.new(uri)
+  http.use_ssl = true
+  res = http.post_form('version' => @params['version'],
+                        'program' => @params['program'],
                             'name' => @params['name'])
   content_type 'application/octet-stream'
   headers "Content-Disposition" => "attachment;filename=\"#{@params['name']}.mrb\""
