@@ -168,26 +168,37 @@ ble.onRead = (data,deviceName) => {
 // [Transfer] ボタン
 const transfer_onclick = () => {
 	// mrubyコードを取得してコンパイルする
+	editor.save()
 	// compile
 	const fd = new FormData()
+	let data = []
 	fd.append("program", document.getElementById('program').value)
 	fd.append("version", "2.0.1")
 	fd.append("name", "mruby_prgram")
 	const compile_url = "http://mrubyc-ide.ddns.net:4566/compile"
+	// コンパイルのリクエスト
 	fetch(compile_url, {method:'POST', body:fd, mode:"cors" })
-		.then(res => res.body.getReader().read() )
-		.then(res => {
-	    	transfer_data.bytecode = res.value
-	    	transfer_data.seq = 0
-	    	transfer_data.end_seq = (res.value.length+15) / 16 | 0
-			console.log(transfer_data) 
-	    	// onWriteイベント発生
-	    	ble.write("mrubyc", [0x00])
-		})
-		.catch(err => {
-			console.error(err)
-		})
-	}
+	.then( res => res.body.getReader() )
+	.then( reader => {
+		function readChunk({done, value}) {
+			if(done) {
+				transfer_data.bytecode = data[0]
+				transfer_data.seq = 0
+				transfer_data.end_seq = (data[0].byteLength+15) / 16 | 0
+				console.log("trans", transfer_data)
+				// onWriteイベント発生
+				ble.write("mrubyc", [0x00])
+				return
+			}
+			data.push(value)
+			reader.read().then(readChunk)
+		}
+		reader.read().then(readChunk)
+	})
+	.catch(err => {
+		console.error(err)
+	})
+}
 
 	/*		
 	var reader = new FileReader()
