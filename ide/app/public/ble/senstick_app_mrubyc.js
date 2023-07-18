@@ -163,8 +163,6 @@ ble.onRead = (data,deviceName) => {
 }
 
 
-
-
 // [Transfer] ボタン
 const transfer_onclick = () => {
 	// mrubyコードを取得してコンパイルする
@@ -175,6 +173,7 @@ const transfer_onclick = () => {
 	fd.append("program", document.getElementById('program').value)
 	fd.append("version", "2.0.1")
 	fd.append("name", "mruby_prgram")
+//	const compile_url = "https://host.docker.internal:4566"
 	const compile_url = "https://mrubyc-ide.ddns.net:4566/compile"
 	// コンパイルのリクエスト
 	fetch(compile_url, {method:'POST', body:fd, mode:"cors" })

@@ -8,9 +8,10 @@ require 'webrick/https'
 
 set :server_settings,
     SSLEnable: true,
-    SSLCertName: [['CN', WEBrick::Utils.getservername]]
+    SSLCertName: [['CN', WEBrick::Utils.getservername]],
+    SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
 
-    
+
 set :bind, '0.0.0.0'
 set :port, 4566
 

@@ -7,7 +7,8 @@ require 'webrick/https'
 
 set :server_settings,
     SSLEnable: true,
-    SSLCertName: [['CN', WEBrick::Utils.getservername]]
+    SSLCertName: [['CN', WEBrick::Utils.getservername]],
+    SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
 
 
 #$api = 'http://host.docker.internal:4566'
