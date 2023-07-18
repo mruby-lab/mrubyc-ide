@@ -9,19 +9,9 @@
   <link rel="stylesheet" href="/theme/base16-dark.css">
   <script src="/mode/ruby/ruby.js"></script>
 
-  <!-- BLE機能 -->
-  <% if @writer == :ble then %>
-  <script type="text/javascript" src="/ble/bluejelly.js"></script>
-  <% end %>
-
-  <!-- SenStick機能 -->
-  <% if @writer_name == "SenStick" %>
-  <script type="text/javascript" src="/ble/senstick_app_mrubyc.js"></script>
-  <% end %>
-
 </head>
 
-<body onload=page_load()>
+<body>
   <h1>mrubyc開発環境 for <%= @writer_name %></h1>
   <form action="<%= @writer_action %>" method="POST">
     <div>
@@ -114,19 +104,7 @@
     <br>
 
     <div>
-      <% if @writer == :download then %>
-      <%# コンパイル後、ダウンロードする場合のボタン %>
       <input type="submit" value="コンパイル&ダウンロード">
-      <% elsif @writer == :ble then %>
-      <%# コンパイル後、BLE転送する場合のボタン %>
-      <div id="device_name"></div>
-      <div id="device_status">未接続</div>
-      <div id="transfer_progress"></div><div id="transfer_result_text"></div>
-      <input type="button" value="BLE接続" onClick="scan_onclick()">
-      <input type="button" value="転送(<%= @writer_name %>)" onClick="transfer_onclick()">
-      パスワード: <input id="password" type="password" size="10" maxlength="15" value="senstickpass">
-      （初期パスワードは senstickpass です）
-      <% end %>
     </div>
   </form>
 

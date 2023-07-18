@@ -30,7 +30,7 @@ end
 get "/editor" do
   @versions = get_version
   @writer = :download
-  @writer_name = :download
+  @writer_name = "download"
   @writer_action = "/compile"
   @default_mrbc = @versions[-1]
   erb :editor
@@ -38,28 +38,12 @@ end
   
 
 get "/editor/:writer" do
-  case params['writer'].downcase
-  when 'ble' then
-    @versions = get_version
-    @writer = :ble
-    @writer_name = "BLE"
-    @writer_action = "/send_ble"
-    @default_mrbc = @versions[-1]
-    erb :editor
-  when 'senstick' then
-#    @writer = :ble
-#    @writer_name = "SenStick"
-#    @writer_action = "/send_ble"
-#    @default_mrbc = "2.0.1"
-    erb :senstick_editor
-  else
-    @versions = get_version
-    @writer = :download
-    @writer_name = :download
-    @writer_action = "/compile"
-    @default_mrbc = @versions[-1]
-    erb :editor
-  end
+  @versions = get_version
+  @writer = :download
+  @writer_name = params['writer'].downcase
+  @writer_action = "/compile"
+  @default_mrbc = @versions[-1]
+  erb :editor
 end
  
 
