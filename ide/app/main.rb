@@ -38,12 +38,18 @@ end
   
 
 get "/editor/:writer" do
-  @versions = get_version
-  @writer = :download
   @writer_name = params['writer'].downcase
-  @writer_action = "/compile"
-  @default_mrbc = @versions[-1]
-  erb :editor
+  if @writer_name == 'senstick' then
+    # SenStick用エディタ
+    erb :senstick_editor
+  else
+    # 通常のエディタ
+    @versions = get_version
+    @writer = :download
+    @writer_action = "/compile"
+    @default_mrbc = @versions[-1]
+    erb :editor
+  end
 end
  
 
