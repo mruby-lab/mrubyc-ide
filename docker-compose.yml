@@ -1,11 +1,6 @@
 version: "3.7"
 
 services:
-  mrbc:
-    build: ./mrbc
-    ports:
-      - 4566:4566
-
   ide:
     build: ./ide
     ports:
