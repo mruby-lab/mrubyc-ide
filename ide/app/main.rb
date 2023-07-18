@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'webrick'
 require 'json'
+require 'tempfile'
+require 'open3'
 require 'uri'
 require 'net/http'
 require 'webrick/https'
