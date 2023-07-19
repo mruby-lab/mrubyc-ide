@@ -14,13 +14,14 @@ RUN git clone https://github.com/mruby/mruby.git && cd mruby && git checkout 2.1
 RUN cd mruby && make clean && git checkout 3.2.0 && make && cp /root/mruby/bin/mrbc /bin/mrbc3.2.0
 
 COPY app .
+COPY ide_start.sh .
 COPY tmpdel /etc/cron.d
 
+RUN chmod 755 ide_start.sh
 RUN chmod 644 /etc/cron.d/tmpdel
 
 RUN bundle install
 
 EXPOSE 4567
 
-CMD ["ruby", "main.rb"]
-
+CMD ["bash", "ide_start.sh"]
