@@ -85,10 +85,10 @@ post '/compile' do
     #tmpファイルのコンパイル
     cpcmd = "#{mrbc_path} #{path}"
     puts cpcmd
-    cpr, cpe, cps = Open3.capture3(cpcmd)
+    @cpr, @cpe, @cps = Open3.capture3(cpcmd)
     #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
     
-    if cpe.empty? then
+    if @cpe.empty? then
       mrbpath = "/tmp/#{fname}.mrb"
       send_file(mrbpath, filename: "#{name}.mrb") 
       

@@ -1,0 +1,25 @@
+<html>
+<title>mrubyc-ide-Error</title>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #error p {
+      font-family: 'Lucida Console';
+    }
+  </style>
+</head>
+
+<body>
+  <h1>コンパイルエラー</h1>
+  <p>Try again</p>
+  <p>Error massage:</p>
+  <div id="error">
+    <p>
+      <%=@cpe%>
+    </p>
+  </div>
+  <div>
+    <button type="button" onclick="history.back()">戻る</button>
+  </div>
+</body>
+</html>
