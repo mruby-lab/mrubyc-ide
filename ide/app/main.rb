@@ -6,11 +6,22 @@ require 'open3'
 require 'uri'
 require 'net/http'
 require 'webrick/https'
+require 'openssl'
 
-set :server_settings,
+
+if File.exist?("certificate.crt") then  
+  # SSLキーあり
+  set :server_settings,
+    SSLEnable: true,
+    SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
+    SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
+else
+  # オレオレ認証
+  set :server_settings,
     SSLEnable: true,
     SSLCertName: [['CN', WEBrick::Utils.getservername]],
     SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
+end
 
 set :bind, '0.0.0.0'
 set :port, 4567
