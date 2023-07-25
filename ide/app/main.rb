@@ -26,6 +26,11 @@ end
 set :bind, '0.0.0.0'
 set :port, 4567
 
+# キャッシュを禁止する
+after do
+  cache_control :no_cache
+end
+
 get '/' do
   "It works."
 end
