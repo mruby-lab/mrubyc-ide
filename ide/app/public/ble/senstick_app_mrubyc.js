@@ -212,7 +212,18 @@ const load_sample1 = () => {
 // サンプルプログラム
 // 温度によってLEDを制御する
 const load_sample2 = () => {
-	const code = "while true do\r  led 1\r  sleep 1\r  led 0\r  sleep 1\rend"
+	const code = `sensor = SenStickIF.new([:temperature])
+	while true do
+	  t = sensor.get(:temperature)
+	  if t>30 then
+		led 1
+	  else
+		led 0
+	  end
+	  sleep 0.1
+	end
+	`
+
 	var doc = editor.getDoc()
 	doc.setValue(code)
 	editor.clearHistory()
