@@ -92,6 +92,39 @@ async function serial_disconnect_onclick() {
 // 書き込みボタン
 async function write_bytecode_onclick() {
     // バイトコード作成（コンパイル）
+    editor.save()
+    // compile
+    const fd = new FormData()
+    let data = []
+    fd.append("program", document.getElementById('program').value)
+    fd.append("version", "2.0.1")
+    fd.append("name", "mruby_prgram")
+    const compile_url = "https://mrubyc-ide.ddns.net/compile"
+    // コンパイルのリクエスト
+    fetch(compile_url, {method:'POST', body:fd, mode:"cors" })
+	.then( res => res.body.getReader() )
+	.then( reader => {
+	    function readChunk({done, value}) {
+		if(done) {
+		    transfer_data.bytecode = data[0]
+		    transfer_data.seq = 0
+		    transfer_data.end_seq = (data[0].byteLength+15) / 16 | 0
+		    console.log("trans", transfer_data)
+		    // バイトコード転送開始
+		    return
+		}
+		data.push(value)
+		reader.read().then(readChunk)
+	    }
+	    reader.read().then(readChunk)
+	})
+	.catch(err => {
+	    console.error(err)
+	})
+}
+
+
+async function transfer_bytecode(){
     // ファイルサイズ
     // 書き込み
     const writer = port.writable.getWriter()
@@ -109,5 +142,4 @@ async function write_bytecode_onclick() {
     await sleep(waitTime);
 
     writer.releaseLock();
-    
 }
