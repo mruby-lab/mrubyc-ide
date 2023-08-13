@@ -106,11 +106,42 @@ async function write_bytecode_onclick() {
 	.then( reader => {
 	    function readChunk({done, value}) {
 		if(done) {
-		    transfer_data.bytecode = data[0]
-		    transfer_data.seq = 0
-		    transfer_data.end_seq = (data[0].byteLength+15) / 16 | 0
+		    const transfer_data = data[0]
 		    console.log("trans", transfer_data)
 		    // バイトコード転送開始
+		    const writer = port.writable.getWriter()
+		    const waitTime = 200
+		    const encoder = new TextEncoder();
+		    
+		    // シリアルポートに\r\nを送信する
+		    console.log("send \r\n");
+		    await writer.write(encoder.encode('\r\n'));
+		    await writer.write(encoder.encode('\r\n'));
+		    await sleep(waitTime);
+		    
+		    // ファイルのクリア
+		    console.log("send clear");
+		    await writer.write(encoder.encode("clear \r\n"));
+		    await sleep(waitTime);
+
+		    // シリアルポートにファイルを書き込む準備
+		    console.log("send write");
+		    const file_size = transfer_data.total
+		    await writer.write(encoder.encode("write " + file_size + "\r\n"));
+		    await sleep(waitTime);
+
+		    // RBoardに.mrbファイルを転送
+		    console.log("send binary file \r\n");
+		    await writer.write(ary);
+		    await writer.write(encoder.encode("\r\n"));
+		    await sleep(waitTime);
+		    
+		    // .mrbを実行する
+		    console.log("execute \r\n");
+		    await writer.write(encoder.encode("execute\r\n"));
+		    await sleep(waitTime);
+		    
+		    writer.releaseLock();
 		    return
 		}
 		data.push(value)
@@ -124,22 +155,3 @@ async function write_bytecode_onclick() {
 }
 
 
-async function transfer_bytecode(){
-    // ファイルサイズ
-    // 書き込み
-    const writer = port.writable.getWriter()
-    const waitTime = 200
-    const encoder = new TextEncoder();
-    // シリアルポートに\r\nを送信する
-    console.log("send \r\n");
-    await writer.write(encoder.encode('\r\n'));
-    await writer.write(encoder.encode('\r\n'));
-    await sleep(waitTime);
-
-    // ファイルのクリア
-    console.log("send clear");
-    await writer.write(encoder.encode("clear \r\n"));
-    await sleep(waitTime);
-
-    writer.releaseLock();
-}
