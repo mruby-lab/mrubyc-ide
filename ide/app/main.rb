@@ -58,6 +58,9 @@ get "/editor/:writer" do
   if @writer_name == 'senstick' then
     # SenStick用エディタ
     erb :senstick_editor
+  elsif @writer_name == 'rboard' then
+    # RBoard用エディタ
+    erb :rboard_editor
   else
     # 通常のエディタ
     @versions = get_version

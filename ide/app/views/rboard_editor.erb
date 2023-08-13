@@ -1,0 +1,52 @@
+<html>
+<title>mrubyc-ide for RBoard</title>
+<head>
+  <meta charset="UTF-8">
+
+  <!-- エディタ関連 -->
+  <script src="/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="/lib/codemirror.css">
+  <link rel="stylesheet" href="/theme/base16-dark.css">
+  <script src="/mode/ruby/ruby.js"></script>
+<!--  <script src="editor.js"></script> -->
+
+  <!-- WebSerial機能 -->
+  <script src="/rboard/rboard.js"></script>
+</head>
+
+<body>
+  <h1>mrubyc開発環境 for RBoard</h1>
+
+  <div>
+    mrubyプログラム:<br>
+    <textarea id="program" name="program"></textarea>
+  </div>
+
+  <script> //シンタックスハイライト機能
+    var editor = CodeMirror.fromTextArea(document.getElementById("program"), {
+      mode: "ruby",
+      lineNumbers: true,
+      theme: 'base16-dark'
+    });
+    editor.setSize("60%", "60%");
+    editor.save();
+  </script>
+  <br>
+
+  <div>
+    <div id="outputArea"></div>
+    <%# コンパイル後、BLE転送する場合のボタン %>
+    <input id="serial_connect_onclick" type="button" value="Connect Rboard" onClick="serial_connect_onclick()">
+    <input id="serial_disconnect_onclick" type="button" value="Disconnect" onClick="serial_disconnect_onclick()" disabled="true">
+    <br>
+    <input type="button" value="Write program" onClick="write_bytecode_onclick()">
+  </div>
+
+  <div>
+    <button onclick="save();">ファイルを保存</button>
+  </div>
+
+  <hr>
+
+</body>
+</html>
