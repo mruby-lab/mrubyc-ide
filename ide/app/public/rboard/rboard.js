@@ -156,7 +156,7 @@ async function write_bytecode_onclick() {
 
 // サンプルプログラム
 // LEDを点滅させる
-const load_sample1 = () => {
+async function load_sample1() {
 	const code = `led = GPIO.new(0)
 
 while true do
@@ -173,7 +173,7 @@ end
 
 // サンプルプログラム
 // LEDを点滅させる
-const load_sample2 = () => {
+async function load_sample2() {
 	const code = `led0 = GPIO.new(0)
 led2 = GPIO.new(1)
 
