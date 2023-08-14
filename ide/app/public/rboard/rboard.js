@@ -154,4 +154,39 @@ async function write_bytecode_onclick() {
 	})
 }
 
+// サンプルプログラム
+// LEDを点滅させる
+const load_sample1 = () => {
+	const code = `led = GPIO.new(0)
 
+while true do
+  led.write 1
+  sleep 0.5
+  led.write 0
+  sleep 0.5
+end    
+`
+	var doc = editor.getDoc()
+	doc.setValue(code)
+	editor.clearHistory()
+}
+
+// サンプルプログラム
+// LEDを点滅させる
+const load_sample2 = () => {
+	const code = `led0 = GPIO.new(0)
+led2 = GPIO.new(1)
+
+while true do
+  led1.write 1
+  led2.write 0
+  sleep 1
+  led1.write 0
+  led2.write 1
+  sleep 1
+end    
+`
+	var doc = editor.getDoc()
+	doc.setValue(code)
+	editor.clearHistory()
+}
