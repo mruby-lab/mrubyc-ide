@@ -97,7 +97,7 @@ async function write_bytecode_onclick() {
     const fd = new FormData()
     let data = []
     fd.append("program", document.getElementById('program').value)
-    fd.append("version", "2.0.1")
+    fd.append("version", "3.2.0")
     fd.append("name", "mruby_prgram")
     const compile_url = "https://mrubyc-ide.ddns.net/compile"
     // コンパイルのリクエスト
