@@ -126,13 +126,13 @@ async function write_bytecode_onclick() {
 
 		    // シリアルポートにファイルを書き込む準備
 		    console.log("send write");
-		    const file_size = transfer_data.total
+		    const file_size = transfer_data.byteLength
 		    await writer.write(encoder.encode("write " + file_size + "\r\n"));
 		    await sleep(waitTime);
 
 		    // RBoardに.mrbファイルを転送
 		    console.log("send binary file \r\n");
-		    await writer.write(ary);
+		    await writer.write(transfer_data);
 		    await writer.write(encoder.encode("\r\n"));
 		    await sleep(waitTime);
 		    
