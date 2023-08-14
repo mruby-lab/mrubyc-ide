@@ -104,7 +104,7 @@ async function write_bytecode_onclick() {
     fetch(compile_url, {method:'POST', body:fd, mode:"cors" })
 	.then( res => res.body.getReader() )
 	.then( reader => {
-	    function readChunk({done, value}) {
+	    async function readChunk({done, value}) {
 		if(done) {
 		    const transfer_data = data[0]
 		    console.log("trans", transfer_data)
