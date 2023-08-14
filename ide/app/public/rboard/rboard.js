@@ -175,14 +175,14 @@ end
 // LEDを点滅させる
 async function load_sample2() {
 	const code = `led0 = GPIO.new(0)
-led2 = GPIO.new(1)
+led1 = GPIO.new(1)
 
 while true do
-  led1.write 1
-  led2.write 0
-  sleep 1
+  led0.write 1
   led1.write 0
-  led2.write 1
+  sleep 1
+  led0.write 0
+  led1.write 1
   sleep 1
 end    
 `
@@ -190,3 +190,25 @@ end
 	doc.setValue(code)
 	editor.clearHistory()
 }
+
+async function load_sample3() {
+	const code = `led1 = PWM.new(0)
+led1.frequency 10000
+
+while true do
+  for i in 0..1023 do
+    led1.duty i
+    sleep 0.001
+  end
+
+  for i in 0..1023 do
+    led1.duty 1023-i
+    sleep 0.001
+  end
+end
+`
+	var doc = editor.getDoc()
+	doc.setValue(code)
+	editor.clearHistory()
+}
+
