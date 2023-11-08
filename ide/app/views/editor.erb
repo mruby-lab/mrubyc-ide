@@ -12,9 +12,9 @@
 
 </head>
 
-<body>
+<body onload="firstscript();">
   <h1>mrubyc開発環境 for <%= @writer_name %></h1>
-  <form action="<%= @writer_action %>" method="POST" target="_blank">
+  <form action="<%= @writer_action %>" method="POST" target="_blank" onSubmit="ProgramArraysave()">
     <div>
       コンパイラバージョン:
       <select name="version">
@@ -39,8 +39,20 @@
     </div>
     <br>
 
+    選択中のプログラム:
+    <select id="sel" onclick="selectclick()" onkeydown="selectclick()" onchange="selectchange()">
+      <option value="0">program_1</option>
+    </select>
+
+    <button type="button" onclick="Addevent();" class="Add">Add</button>
+    <button type="button" onclick="Delevent();" class="Del">Del</button>
+    <br>
+    <input id="rename" type="text" name="rename" placeholder="Enter a file name to rename">
+    <button type="button" onclick="Rename();" class="Rename">Rename</button>
+    <br>
+    <br>
+
     <div>
-      mrubyプログラム:<br>
       <textarea id="program" name="program">puts "Hello"</textarea>
     </div>
     <br>
@@ -61,7 +73,7 @@
   </form>
 
   <div>
-    <button onclick="save();">ファイルを保存</button>
+    <button type="button" onclick="save();">ファイルを保存</button>
   </div>
 
 </body>
