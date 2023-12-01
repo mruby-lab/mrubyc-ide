@@ -68,7 +68,12 @@
     </script>
 
     <div>
-      <input type="submit" value="コンパイル&ダウンロード">
+      <input id="programs" type="hidden" name="programs">
+      <input id="n_programs" type="hidden" name="n_programs">
+    </div>
+
+    <div>
+      <input type="submit" onclick="compileevent()" value="コンパイル&ダウンロード">
     </div>
   </form>
 

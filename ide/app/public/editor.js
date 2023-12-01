@@ -1,4 +1,4 @@
-//コード保存用の配列の初期化
+//コード保存用の配列(json)の初期化
 function firstscript(){
   var sel = document.getElementById("sel");
   var JsonProgramArray = sessionStorage.getItem('programarray');
@@ -43,7 +43,7 @@ function selectclick(){
   ProgramArraysave();
 };
 
-//リストボックス変更時、編集エリアのデータを書き換える
+//リストボックス変更時、編集エリア(CodeMirror)のデータを書き換える
 function selectchange(){
   //選択したselectのindexをとる
   var sel = document.getElementById("sel");
@@ -153,6 +153,19 @@ function Rename(){
 
   sel[idx].text = rename.value;
   rename.value = '';
+};
+
+//コンパイル時隠しフィールドに配列データ(json文字列)とプログラム数をセット
+function compileevent(){
+  selectclick(); //保存処理
+  var JsonProgramArray = sessionStorage.getItem('programarray');
+  var cnt = document.getElementById("sel").length;
+
+  var programs = document.getElementById('programs');
+  var n = document.getElementById('n_programs');
+
+  programs.value = JsonProgramArray;
+  n.value = cnt;
 };
 
 //Textareaの内容を保存

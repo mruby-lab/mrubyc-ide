@@ -79,6 +79,9 @@ post '/compile' do
   name = params[:name]
   program = params[:program]
   version = params[:version]
+
+  programs = params[:programs]
+  n_programs = params[:n_programs]
   
   mrbc_path = ""
   if version=="3.2.0" then
