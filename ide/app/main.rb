@@ -9,12 +9,12 @@ require 'webrick/https'
 require 'openssl'
 
 
-if File.exist?("cert.pem") then  
+if File.exist?("/root/fullchain.pem") then  
   # SSLキーあり
   set :server_settings,
     SSLEnable: true,
-    SSLCertificate: OpenSSL::X509::Certificate.new(File.open("cert.pem").read),
-    SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("privkey.pem").read)
+    SSLCertificate: OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem").read),
+    SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("/root/privkey.pem").read)
     # 旧キー
     # SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
     # SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
