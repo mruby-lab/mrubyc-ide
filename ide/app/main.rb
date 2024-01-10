@@ -11,13 +11,16 @@ require 'openssl'
 
 # set :bind, '0.0.0.0'
 
-options = {
-  :Port => 4567,
-  :bind => '0.0.0.0'
-  :SSLEnable => true,
-  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
-  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
-}
+if File.exists?("/root/fullchain.pem") thrn
+  options = {
+    :Port => 4567,
+    :bind => '0.0.0.0',
+    :SSLEnable => true,
+    :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
+    :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
+  }
+end
+
 server = WEBrick::HTTPServer.new(options)
 
 # キャッシュを禁止する
