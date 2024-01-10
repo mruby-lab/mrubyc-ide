@@ -5,10 +5,9 @@ require 'tempfile'
 require 'open3'
 require 'uri'
 require 'net/http'
-# require 'webrick/https'
+require 'webrick/https'
 require 'openssl'
 require 'rack/ssl'
-require 'thin'
 
 set :bind, '0.0.0.0'
 set :port, 4567
