@@ -10,6 +10,7 @@ require 'openssl'
 
 
 if File.exist?("/root/fullchain.pem") then  
+  puts "USING KEY"
   # SSLキーあり
   set :server_settings,
     SSLEnable: true,
@@ -20,6 +21,7 @@ if File.exist?("/root/fullchain.pem") then
     # SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
   else
   # オレオレ認証
+  puts "SELF KEY"
   set :server_settings,
     SSLEnable: true,
     SSLCertName: [['CN', WEBrick::Utils.getservername]],
