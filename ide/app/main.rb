@@ -7,29 +7,13 @@ require 'uri'
 require 'net/http'
 require 'webrick/https'
 require 'openssl'
-
-
-if File.exist?("/root/fullchain.pem") then  
-  puts "USING KEY"
-  # SSLキーあり
-  set :server_settings,
-    SSLEnable: true,
-    SSLCertificate: OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem").read),
-    SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("/root/privkey.pem").read)
-    # 旧キー
-    # SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
-    # SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
-  else
-  # オレオレ認証
-  puts "SELF KEY"
-  set :server_settings,
-    SSLEnable: true,
-    SSLCertName: [['CN', WEBrick::Utils.getservername]],
-    SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
-end
+require 'rack/ssl'
 
 set :bind, '0.0.0.0'
 set :port, 4567
+
+use Rack::SSL, :cert_path => '/root/fullchain.pem',
+               :key_path  => '/root/privkey.pem'
 
 # キャッシュを禁止する
 after do
