@@ -13,7 +13,7 @@ if File.exist?("fullchain.pem") then
   # SSLキーあり
   set :server_settings,
     SSLEnable: true,
-    SSLCertificate: OpenSSL::X509::Certificate.new File.read 'fullchain.pem'
+    SSLCertificate: OpenSSL::X509::Certificate.new File.read 'fullchain.pem',
     SSLPrivateKey: OpenSSL::PKey::RSA.new File.read 'privkey.pem'
     # 旧キー
     # SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
