@@ -99,7 +99,8 @@ async function write_bytecode_onclick() {
     fd.append("program", document.getElementById('program').value)
     fd.append("version", "3.2.0")
     fd.append("name", "mruby_prgram")
-    const compile_url = "https://mrubyc-ide.ddns.net/compile"
+    // const compile_url = "https://mrubyc-ide.ddns.net/compile"
+    const compile_url = "https://localhost/compile"
     // コンパイルのリクエスト
     fetch(compile_url, {method:'POST', body:fd, mode:"cors" })
 	.then( res => res.body.getReader() )

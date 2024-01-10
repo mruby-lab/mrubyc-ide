@@ -13,9 +13,12 @@ if File.exist?("certificate.crt") then
   # SSLキーあり
   set :server_settings,
     SSLEnable: true,
-    SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
-    SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
-else
+    SSLCertificate: OpenSSL::X509::Certificate.new File.read 'fullchain.pem'
+    SSLPrivateKey: OpenSSL::PKey::RSA.new File.read 'privkey.pem'
+    # 旧キー
+    # SSLCertificate: OpenSSL::X509::Certificate.new(File.open("certificate.crt").read),
+    # SSLPrivateKey: OpenSSL::PKey::RSA.new(File.open("private.key").read)
+  else
   # オレオレ認証
   set :server_settings,
     SSLEnable: true,
@@ -96,28 +99,30 @@ post '/compile' do
   if name=="" then
     name = "default"
   end
-  
-  Tempfile.create([name, '.rb']) do |f|
-    #プログラムをtmpファイルに保存
-    path = f.path
-    fname = File.basename(path, '.*')
-    f.puts program
-    f.rewind
+
+  # .rb ファイルを作成する
+  mrbfiles = []
+  n_programs.to_i.times do |i|
+    Tempfile.create([name, ".rb"]) do |fp|
+      fp.puts programs[i]
+      fp.rewind
+
+      # .rb ファイルのコンパイル
+      cpcmd = "#{mrbc_path} #{fp.path}"
+      puts cpcmd
+      @cpr, @cpe, @cps = Open3.capture3(cpcmd)
+      #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
     
-    #tmpファイルのコンパイル
-    cpcmd = "#{mrbc_path} #{path}"
-    puts cpcmd
-    @cpr, @cpe, @cps = Open3.capture3(cpcmd)
-    #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
-    
-    if @cpe.empty? then
-      mrbpath = "/tmp/#{fname}.mrb"
-      send_file(mrbpath, filename: "#{name}.mrb") 
-      
-    else
-      puts "Error"
-      erb :error
+      if @cpe.empty? then
+        mrbpath = fp.path.gsub(/\.rb/, ".mrb")
+        mrbfiles << fp.path
+      else
+        puts "Error"
+        erb :error
+      end
     end
-    
+
   end
+
+p mrbfiles  
 end
