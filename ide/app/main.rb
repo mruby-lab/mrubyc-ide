@@ -9,7 +9,7 @@ require 'webrick/https'
 require 'openssl'
 
 
-if File.exist?("certificate.crt") then  
+if File.exist?("fullchain.pem") then  
   # SSLキーあり
   set :server_settings,
     SSLEnable: true,
