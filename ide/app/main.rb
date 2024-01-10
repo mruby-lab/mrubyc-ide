@@ -5,15 +5,20 @@ require 'tempfile'
 require 'open3'
 require 'uri'
 require 'net/http'
+require 'webrick'
 require 'webrick/https'
 require 'openssl'
-require 'rack/ssl'
 
-set :bind, '0.0.0.0'
-set :port, 4567
+# set :bind, '0.0.0.0'
 
-use Rack::SSL, :cert_path => '/root/fullchain.pem',
-               :key_path  => '/root/privkey.pem'
+options = {
+  :Port => 4567,
+  :bind => '0.0.0.0'
+  :SSLEnable => true,
+  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
+  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
+}
+server = WEBrick::HTTPServer.new(options)
 
 # キャッシュを禁止する
 after do
