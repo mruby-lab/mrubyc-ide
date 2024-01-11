@@ -9,19 +9,19 @@ require 'webrick'
 require 'webrick/https'
 require 'openssl'
 
-# set :bind, '0.0.0.0'
+
 
 if File.exists?("/root/fullchain.pem") then
   options = {
     :Port => 4567,
-    :Bind => '0.0.0.0',
     :SSLEnable => true,
     :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
     :SSLPrivateKey => OpenSSL::PKey::EC.new(File.read("/root/privkey.pem")),
   }
+  set :environment, :production
+  set :bind, '0.0.0.0'
+  set :server_settings, options
 end
-
-server = WEBrick::HTTPServer.new(options)
 
 # キャッシュを禁止する
 after do
