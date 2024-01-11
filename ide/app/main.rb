@@ -11,13 +11,13 @@ require 'openssl'
 
 # set :bind, '0.0.0.0'
 
-if File.exists?("/root/fullchain.pem") thrn
+if File.exists?("/root/fullchain.pem") then
   options = {
     :Port => 4567,
-    :bind => '0.0.0.0',
+    :Bind => '0.0.0.0',
     :SSLEnable => true,
     :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
-    :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
+    :SSLPrivateKey => OpenSSL::PKey::EC.new(File.read("/root/privkey.pem")),
   }
 end
 
