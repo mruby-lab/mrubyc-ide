@@ -9,30 +9,31 @@ require 'webrick'
 require 'webrick/https'
 require 'openssl'
 
-# set :bind, '0.0.0.0'
-
-if File.exists?("/root/fullchain.pem") then
+if File.exist?("/root/fullchain.pem") then
+  # 証明書
   options = {
-    :Port => 4567,
-    :bind => '0.0.0.0',
     :SSLEnable => true,
     :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
-    :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
+    :SSLPrivateKey => OpenSSL::PKey::EC.new(File.read("/root/privkey.pem")),
   }
-
-  server = WEBrick::HTTPServer.new(options)
+  set :port, 4567
+  set :environment, :production
+  set :bind, '0.0.0.0'
+  set :server_settings, options
 else
   # オレオレ認証
-  set :server_settings,
+  options = {
     SSLEnable: true,
     SSLCertName: [['CN', WEBrick::Utils.getservername]],
     SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
+  }
 
-  set :bind, '0.0.0.0'
   set :port, 4567
+  set :bind, '0.0.0.0'
+  set :environment, :production
+  set :bind, '0.0.0.0'
+  set :server_settings, options
 end
-
-#server = WEBrick::HTTPServer.new(options)
 
 # キャッシュを禁止する
 after do
@@ -88,46 +89,49 @@ post '/compile' do
   program = params[:program]
   version = params[:version]
 
-  programs = params[:programs]
+  programs = JSON.parse(params[:programs])
   n_programs = params[:n_programs]
   
   mrbc_path = ""
   if version=="3.2.0" then
-    mrbc_path = "/bin/mrbc3.2.0"
+    mrbc_path = "/root/mrbc3.2.0"
   elsif version=="2.0.1" then
-    mrbc_path = "/bin/mrbc2.0.1"
+    mrbc_path = "/root/mrbc2.0.1"
   else
-    mrbc_path = "/bin/mrbc3.2.0"    # デフォルトのコンパイラ
+    mrbc_path = "/root/mrbc3.2.0"    # デフォルトのコンパイラ
   end
   
   # プログラム名が指定されなかった場合
   if name=="" then
     name = "default"
   end
-
+  #
   # .rb ファイルを作成する
   mrbfiles = []
   n_programs.to_i.times do |i|
-    Tempfile.create([name, ".rb"]) do |fp|
-      fp.puts programs[i]
-      fp.rewind
+    fp = Tempfile.create([name, ".rb"])
+    fp.puts programs[i]
+    fp.rewind
 
-      # .rb ファイルのコンパイル
-      cpcmd = "#{mrbc_path} #{fp.path}"
-      puts cpcmd
-      @cpr, @cpe, @cps = Open3.capture3(cpcmd)
-      #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
+    # .rb ファイルのコンパイル
+    cpcmd = "#{mrbc_path} #{fp.path}"
+    puts cpcmd
+    @cpr, @cpe, @cps = Open3.capture3(cpcmd)
+    #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
     
-      if @cpe.empty? then
-        mrbpath = fp.path.gsub(/\.rb/, ".mrb")
-        mrbfiles << mrbpath
-      else
-        puts "Error"
-        erb :error
-      end
+    if @cpe.empty? then
+      mrbpath = fp.path.gsub(/\.rb/, ".mrb")
+      mrbfiles << mrbpath
+    else
+      puts "Error: #{@cpe}"
+      erb :error
     end
-
   end
 
-p mrbfiles  
+  
+  if mrbfiles.size == 1 then
+    send_file mrbfiles[0], {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
+  else
+    "Not supported"
+  end
 end
