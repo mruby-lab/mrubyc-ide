@@ -107,9 +107,9 @@ post '/compile' do
       @cpr, @cpe, @cps = Open3.capture3(cpcmd)
       #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
     
-      if @cpe.empty? then
+      if not @cpe.empty? then
         mrbpath = fp.path.gsub(/\.rb/, ".mrb")
-        mrbfiles << fp.path
+        mrbfiles << mrbpath
       else
         puts "Error"
         erb :error
@@ -118,5 +118,11 @@ post '/compile' do
 
   end
 
-p mrbfiles  
+  puts mrbfiles
+  
+  if mrbfiles.size == 1 then
+    send_file mrbfiles[0], {:filename => name}
+  else
+    "Not supported"
+  end
 end
