@@ -11,7 +11,7 @@ require 'openssl'
 
 # set :bind, '0.0.0.0'
 
-if File.exists?("/root/fullchain.pem") thrn
+if File.exists?("/root/fullchain.pem") then
   options = {
     :Port => 4567,
     :bind => '0.0.0.0',
@@ -19,9 +19,20 @@ if File.exists?("/root/fullchain.pem") thrn
     :SSLCertificate => OpenSSL::X509::Certificate.new(File.open("/root/fullchain.pem")),
     :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.read("/root/privkey.pem")),
   }
+
+  server = WEBrick::HTTPServer.new(options)
+else
+  # オレオレ認証
+  set :server_settings,
+    SSLEnable: true,
+    SSLCertName: [['CN', WEBrick::Utils.getservername]],
+    SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE
+
+  set :bind, '0.0.0.0'
+  set :port, 4567
 end
 
-server = WEBrick::HTTPServer.new(options)
+#server = WEBrick::HTTPServer.new(options)
 
 # キャッシュを禁止する
 after do
@@ -109,7 +120,7 @@ post '/compile' do
     
       if @cpe.empty? then
         mrbpath = fp.path.gsub(/\.rb/, ".mrb")
-        mrbfiles << fp.path
+        mrbfiles << mrbpath
       else
         puts "Error"
         erb :error
