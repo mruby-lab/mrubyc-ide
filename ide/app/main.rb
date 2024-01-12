@@ -88,10 +88,15 @@ post '/compile' do
   name = params[:name]
   program = params[:program]
   version = params[:version]
+  if params.has_key?(:programs) then
+    programs = JSON.parse(params[:programs])
+    n_programs = params[:n_programs]
+  else 
+    # 旧paramsへの対応
+    programs = [program]
+    n_programs = "1"
+  end
 
-  programs = JSON.parse(params[:programs])
-  n_programs = params[:n_programs]
-  
   mrbc_path = ""
   if version=="3.2.0" then
     mrbc_path = "/root/mrbc3.2.0"
@@ -105,7 +110,6 @@ post '/compile' do
   if name=="" then
     name = "default"
   end
-  #
   # .rb ファイルを作成する
   mrbfiles = []
   n_programs.to_i.times do |i|
