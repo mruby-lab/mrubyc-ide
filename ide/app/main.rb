@@ -112,6 +112,8 @@ post '/compile' do
   end
   # .rb ファイルを作成する
   mrbfiles = []
+  @errormsg = []
+  
   n_programs.to_i.times do |i|
     fp = Tempfile.create([name, ".rb"])
     fp.puts programs[i]
@@ -128,12 +130,14 @@ post '/compile' do
       mrbfiles << mrbpath
     else
       puts "Error: #{@cpe}"
-      erb :error
+      @errormsg[i] = @cpe
+      #erb :error
     end
   end
 
-  
-  if mrbfiles.size == 1 then
+  if @errormsg.size != 0 then
+    erb :error
+  elsif mrbfiles.size == 1 then
     send_file mrbfiles[0], {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
   else
     "Not supported"
