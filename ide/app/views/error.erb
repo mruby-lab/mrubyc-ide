@@ -17,7 +17,17 @@
   <p>Error massage:</p>
   <div id="error">
     <p>
-      <%=@errormsg[0]%>
+      <%no = 1%>
+      <%for msg in @errormsg do%>
+      <%if msg.nil? then%>
+      <!-- Nothing -->
+      <%else%>
+      Program No.<%= no %>:
+      <%= msg %>
+      <br>
+      <%end%>
+      <%no += 1%>
+      <%end%>
     </p>
   </div>
   <div>

@@ -81,6 +81,12 @@ function Addevent(){
   //リストボックス要素の追加
   var sel = document.getElementById("sel");
   var selnum = document.getElementById("sel").length;
+
+//  if(selnum >= 4){
+//    alert('これ以上追加できません（上限値４）');
+//    return;
+//  }
+
   selnum++;
   var basename = document.querySelector("#name").value;
   var addname = basename + '_' + selnum;
