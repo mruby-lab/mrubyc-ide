@@ -29,7 +29,6 @@ else
   }
 
   set :port, 4567
-  set :bind, '0.0.0.0'
   set :environment, :production
   set :bind, '0.0.0.0'
   set :server_settings, options
@@ -158,9 +157,12 @@ post '/compile' do
       end
     end
     mrbsize.each_with_index do |size, i| 
+      lower = size%256
+      upper = size/256
       fp.pos = i*2
-      fp.write size%256
-      fp.write size/256
+      fp.write([lower].pack("C"))
+      fp.pos = i*2 + 1
+      fp.write([upper].pack("C"))
     end
     # ファイルを送信する
     send_file fp.path, {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
