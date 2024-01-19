@@ -135,7 +135,7 @@ post '/compile' do
     end
   end
 
-p mrbfiles
+  p mrbfiles
 
   if @errormsg.size != 0 then
     erb :error
@@ -164,6 +164,5 @@ p mrbfiles
     end
     # ファイルを送信する
     send_file fp.path, {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
-    end
   end
 end
