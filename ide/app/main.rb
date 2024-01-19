@@ -83,7 +83,7 @@ end
 
 # コンパイル＆ダウンロードの処理
 post '/compile' do
-  p params
+#  p params
   
   name = params[:name]
   program = params[:program]
@@ -113,7 +113,7 @@ post '/compile' do
   # .rb ファイルを作成する
   mrbfiles = []
   @errormsg = []
-  
+ 
   n_programs.to_i.times do |i|
     fp = Tempfile.create([name, ".rb"])
     fp.puts programs[i]
@@ -135,11 +135,35 @@ post '/compile' do
     end
   end
 
+p mrbfiles
+
   if @errormsg.size != 0 then
     erb :error
   elsif mrbfiles.size == 1 then
     send_file mrbfiles[0], {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
   else
-    "Not supported"
+    # 複数ファイルを結合する
+    mrbsize = []
+    fp = Tempfile.create([name, ".mrb"], binmode: true)
+    8.times do
+      fp.write("\0")
+    end
+    # mrbファイルを結合する
+    mrbfiles.each_with_index do |file, i|
+      if file then
+        File.open(file, binmode: true) do |mrb|
+          mrbsize[i] = mrb.size
+          fp.write mrb.read
+        end
+      end
+    end
+    mrbsize.each_with_index do |size, i| 
+      fp.pos = i*2
+      fp.write size%256
+      fp.write size/256
+    end
+    # ファイルを送信する
+    send_file fp.path, {:type => 'application/octet-stream', :filename => "#{name}.mrb"}
+    end
   end
 end
