@@ -82,10 +82,10 @@ function Addevent(){
   var sel = document.getElementById("sel");
   var selnum = document.getElementById("sel").length;
 
-//  if(selnum >= 4){
-//    alert('これ以上追加できません（上限値４）');
-//    return;
-//  }
+  if(selnum >= 4){
+    alert('これ以上追加できません（上限値４）');
+    return;
+  }
 
   selnum++;
   var basename = document.querySelector("#name").value;
@@ -210,18 +210,24 @@ const selectFile = () => {
   reader.readAsText(file);
   
   reader.onload = () => {
-    editor.toTextArea(); //元のエディタを消す
-    document.querySelector("#name").value = file.name;
+    var nameindex = file.name.lastIndexOf(".");
+    if(nameindex > 0 && nameindex < file.name.length -1){
+      var programname = file.name.substring(0, nameindex);
+    } else {
+      var programname = file.name;
+    }
+    document.querySelector("#name").value = programname;
     document.querySelector("#program").value = reader.result;
-    editor = CodeMirror.fromTextArea(document.getElementById("program"), {
-      mode: "ruby",
-      lineNumbers: true,
-      theme: 'base16-dark'
-    });
-    editor.setSize("60%", "60%");
+
+    var p = reader.result;
+    var doc = editor.getDoc();
+    doc.setValue(p);
+    editor.clearHistory();
     editor.save();
 
     ProgramArraysave();
+
+    document.querySelector("#select-file").value = "";
   };
   
   // ファイル読み込みエラー時の処理
@@ -229,4 +235,7 @@ const selectFile = () => {
     alert('ファイル読み込みエラー');
   };
 };
-  
+
+function filebtn(){
+  document.getElementById("select-file").click();
+};

@@ -114,23 +114,23 @@ post '/compile' do
   @errormsg = []
  
   n_programs.to_i.times do |i|
-    fp = Tempfile.create([name, ".rb"])
-    fp.puts programs[i]
-    fp.rewind
+    Tempfile.create([name, ".rb"]) do |fp|
+      fp.puts programs[i]
+      fp.rewind
 
-    # .rb ファイルのコンパイル
-    cpcmd = "#{mrbc_path} #{fp.path}"
-    puts cpcmd
-    @cpr, @cpe, @cps = Open3.capture3(cpcmd)
-    #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
+      # .rb ファイルのコンパイル
+      cpcmd = "#{mrbc_path} #{fp.path}"
+      puts cpcmd
+      @cpr, @cpe, @cps = Open3.capture3(cpcmd)
+      #cpr:標準出力, cpe:標準エラー, cps:プロセス終了ステータス
     
-    if @cpe.empty? then
-      mrbpath = fp.path.gsub(/\.rb/, ".mrb")
-      mrbfiles << mrbpath
-    else
-      puts "Error: #{@cpe}"
-      @errormsg[i] = @cpe
-      #erb :error
+      if @cpe.empty? then
+        mrbpath = fp.path.gsub(/\.rb/, ".mrb")
+        mrbfiles << mrbpath
+      else
+        puts "Error: #{@cpe}"
+        @errormsg[i] = @cpe
+      end
     end
   end
 
