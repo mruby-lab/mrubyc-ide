@@ -215,17 +215,18 @@ end
 
 async function load_sample4() {
 	const code = `led = GPIO.new(0)
-    adc = ADC.new(20)
+adc = ADC.new(20)
     
-    while true do
-      v = adc.read
-      if v<0.5 then
-        led.write 1
-      else
-        led.write 0
-      end
-      sleep 0.1
-    end`
+while true do
+  v = adc.read
+  if v<0.5 then
+    led.write 1
+  else
+    led.write 0
+  end
+  sleep 0.1
+end
+`
 	var doc = editor.getDoc()
 	doc.setValue(code)
 	editor.clearHistory()
