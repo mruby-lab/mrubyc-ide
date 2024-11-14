@@ -1,40 +1,42 @@
 <script type="text/javascript">
-    RED.nodes.registerType('GPIO-Read', {
+    RED.nodes.registerType('GPIO-Write', {
         category: 'mruby_Rboad_Nodes',
         color: '#A9E2F3',
         defaults: {
             name: { value: "" },
-            ReadType:{value: "digital_read"}, 
-            GPIOType:{value: "read"},            
+            GPIOType:{value: "write"},            
             targetPort_digital: {value: ""}
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 0,
         icon: "white-globe.svg",
         label: function () {
-            return this.name||"GPIO-Read";
+            return this.name||"GPIO-Write";
+        },
+        paletteLabel: function() {
+            return this.name||"GPIO-Write";
         },
         
         oneditprepare: function(){
-
+        
         }
     });
 </script>
 
 
-<script type="text/html" data-template-name="GPIO-Read">
+<script type="text/html" data-template-name="GPIO-Write">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> 名前</label>
-        <input type="text" id="node-input-name" placeholder="名前">
+        <input type="text" id="node-input-name" placeholder="名前" >
     </div>
 
     <div class="form-row">
-        <label for="node-input-targetPort_digital"><i class="icon-tag"></i> 入力Pin</label>
+        <label for="node-input-targetPort_digital"><i class="icon-tag"></i> 出力Pin</label>
         <input type="text" id="node-input-targetPort_digital"  placeholder="Pin番号を入力(1～20)">
     </div>
 </script>
 
  
-<script type="text/x-red" data-help-name="GPIO-Read">
+<script type="text/x-red" data-help-name="GPIO-Write">
     <p>GPIOを制御するノードです</p>
 </script>

@@ -1,0 +1,42 @@
+<script type="text/javascript">
+    RED.nodes.registerType('GPIO', {
+        category: 'mruby_Rboad_Nodes',
+        color: "#ffe3a6",
+        defaults: {
+            name: { value: "" },
+            targetPort: { value: "" }
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "light.svg",
+        align: "right",
+        label: function () {
+            return this.name || "GPIO";
+        },
+
+        oneditprepare: function () {
+          
+
+
+        }
+
+    });
+</script>
+
+ 
+<script type="text/html" data-template-name="GPIO">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名前</label>
+        <input type="text" id="node-input-name" placeholder="名前">
+    </div>
+
+    <div id="gpio-conected-Pin" class="form-row">
+        <label for="node-input-targetPort"><i class="icon-tag"></i> Pin番号</label>
+        <input type="text" id="node-input-targetPort" placeholder="LEDと接続しているPin番号を入力">
+    </div>
+
+</script>
+ 
+<script type="text/x-red" data-help-name="GPIO">
+    <p>LEDを制御するノードです</p>
+</script>

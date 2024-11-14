@@ -4,17 +4,12 @@
         color: '#A9E2F3',
         defaults: {
             name: { value: "" },
-            WriteType: { value: "digital_write" },
-            ADCType: { value: "write" },
-            Pin_num: { value: "" },
-            frequency: { value: "" },
-            double: { value: "0" },
-            rate: { value: "" }
+            targetPrt: { value: "" },
 
         },
         inputs: 1,
         outputs: 1,
-        icon: "serial.svg",
+        icon: "white-globe.svg",
         label: function () {
             return this.name || "ADC";
         },
@@ -37,8 +32,29 @@
 
     
     <div class="form-row">
-        <label for="node-input-Pin_num"><i class="icon-tag"></i> 出力Pin</label>
-        <input type="text" id="node-input-Pin_num" placeholder="Pin番号を入力して下さい。">    
+        <label for="node-input-targetPort_ADC"><i class="icon-tag"></i> 出力Pin</label>
+        <select id="node-input-targetPort_ADC">
+            <option value="0">ADC 0 (Pin0)</option>
+            <option value="1">ADC 1 (Pin1)</option>
+            <option value="2">ADC 2 (Pin5)</option>
+            <option value="3">ADC 3 (Pin6)</option>
+            <option value="4">ADC 4 (Pin7)</option>
+            <option value="5">ADC 5 (Pin8)</option>
+            <option value="6">ADC 6 (Pin19)</option>
+            <option value="7">ADC 7 (Pin20)</option>
+        </select>   
+
+        <div class="form-tips"><b>注意:</b> 使用するADCのチャンネルとPin番号は一致していません.以下のように設定されています.
+            <br/>・ADC0 (Pin0)
+            <br/>・ADC1 (Pin1)
+            <br/>・ADC2 (Pin5)
+            <br/>・ADC3 (Pin6)
+            <br/>・ADC4 (Pin7)
+            <br/>・ADC5 (Pin8)
+            <br/>・ADC6 (Pin19)
+            <br/>・ADC7 (Pin20)
+
+        </div>
     </div>
 
 </script>

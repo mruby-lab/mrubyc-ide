@@ -4,14 +4,12 @@
     "nodes": {
       "Constant":"Constant.js",
       "Button": "Button.js",
-      "LED":"LED.js",
+      "GPIO":"GPIO.js",
       "GPIO-Read":"GPIO-Read.js",
-      "GPIO-Write-1":"GPIO-Write-1.js",
+      "GPIO-Write":"GPIO-Write.js",
       "I2C":"I2C.js",
-      "function":"function.js",
-      "Format_NodeType": "Format_NodeType.js",
+      "function":"function.js",      
       "ADC": "ADC.js",
-      "Trigger": "Trigger.js",
       "PWM": "PWM.js"
     }
   },
